@@ -562,6 +562,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void btn_iniciarsesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_iniciarsesMouseClicked
         // TODO add your handling code here:
+        String nombre = tf_usuarioIS.getText();
     }//GEN-LAST:event_btn_iniciarsesMouseClicked
 
     /**
