@@ -6,6 +6,7 @@ package lab8p2_luiscastrojosuerivera;
 
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -562,9 +563,41 @@ public class Inicio extends javax.swing.JFrame {
 
     private void btn_iniciarsesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_iniciarsesMouseClicked
         // TODO add your handling code here:
+        int cont = 0;
+        int cont2 = 0;
         String nombre = tf_usuarioIS.getText();
+        String contra = pf_contraIS.getText();
+        for (int i = 0; i < jugadores.size(); i++) {
+            if(jugadores.get(i).getNombre().equals(nombre)&&jugadores.get(i).getContra().equals(contra)){
+                cont++;
+            }
+        }
+        for (int i = 0; i < administradores.size(); i++) {
+            if(jugadores.get(i).getNombre().equals(nombre)&&jugadores.get(i).getContra().equals(contra)){
+                cont2++;
+            }
+        }
+        if(cont == 1){
+            abrirParticipante();
+        }else if(cont2 == 1){
+            abrirParticipante();
+        }else{
+            JOptionPane.showMessageDialog(this, "No se encuentra el usuario!");
+        }
     }//GEN-LAST:event_btn_iniciarsesMouseClicked
-
+    
+    public void abrirAdmin(){
+        jd_registrarse.pack();
+        jd_registrarse.setModal(true);
+        jd_registrarse.setLocationRelativeTo(this);
+        jd_registrarse.setVisible(true);
+    }
+    public void abrirParticipante(){
+        jd_registrarse.pack();
+        jd_registrarse.setModal(true);
+        jd_registrarse.setLocationRelativeTo(this);
+        jd_registrarse.setVisible(true);
+    }
     /**
      * @param args the command line arguments
      */
