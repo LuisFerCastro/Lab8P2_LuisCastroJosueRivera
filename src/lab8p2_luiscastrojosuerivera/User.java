@@ -12,6 +12,7 @@ public class User {
     private String nombre;
     private String contra;
 
+
     public User(String nombre, String contra) {
         this.nombre = nombre;
         this.contra = contra;

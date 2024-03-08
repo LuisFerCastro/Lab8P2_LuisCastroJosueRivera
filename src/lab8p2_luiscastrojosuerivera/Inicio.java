@@ -4,7 +4,15 @@
  */
 package lab8p2_luiscastrojosuerivera;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 
@@ -38,8 +46,8 @@ public class Inicio extends javax.swing.JFrame {
         pf_contraregistrarse = new javax.swing.JPasswordField();
         tf_registrar = new javax.swing.JTextField();
         btn_crearUser = new javax.swing.JButton();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
+        jR_participante = new javax.swing.JRadioButton();
+        jR_admin = new javax.swing.JRadioButton();
         tipo_usuario = new javax.swing.ButtonGroup();
         jd_Admin = new javax.swing.JDialog();
         jPanel1 = new javax.swing.JPanel();
@@ -109,14 +117,20 @@ public class Inicio extends javax.swing.JFrame {
         jLabel5.setText("Password");
 
         btn_crearUser.setText("Crear");
+        btn_crearUser.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_crearUserMouseClicked(evt);
+            }
+        });
 
-        tipo_usuario.add(jRadioButton1);
-        jRadioButton1.setForeground(new java.awt.Color(0, 0, 0));
-        jRadioButton1.setText("Participante");
+        tipo_usuario.add(jR_participante);
+        jR_participante.setForeground(new java.awt.Color(0, 0, 0));
+        jR_participante.setSelected(true);
+        jR_participante.setText("Participante");
 
-        tipo_usuario.add(jRadioButton2);
-        jRadioButton2.setForeground(new java.awt.Color(0, 0, 0));
-        jRadioButton2.setText("Administrador");
+        tipo_usuario.add(jR_admin);
+        jR_admin.setForeground(new java.awt.Color(0, 0, 0));
+        jR_admin.setText("Administrador");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -137,9 +151,9 @@ public class Inicio extends javax.swing.JFrame {
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(pf_contraregistrarse, javax.swing.GroupLayout.DEFAULT_SIZE, 368, Short.MAX_VALUE)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jR_participante, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(37, 37, 37)
-                                        .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(jR_admin, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addComponent(tf_registrar))))
                         .addGap(0, 35, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
@@ -161,8 +175,8 @@ public class Inicio extends javax.swing.JFrame {
                 .addComponent(pf_contraregistrarse, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(45, 45, 45)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2))
+                    .addComponent(jR_participante)
+                    .addComponent(jR_admin))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
                 .addComponent(btn_crearUser)
                 .addGap(21, 21, 21))
@@ -563,17 +577,23 @@ public class Inicio extends javax.swing.JFrame {
 
     private void btn_iniciarsesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_iniciarsesMouseClicked
         // TODO add your handling code here:
+        Adm_Admin ad = new Adm_Admin("./Administradores");
+        ad.cargarArchivo();
+        Adm_Participante a = new Adm_Participante("./Participante.par");
+        a.cargarArchivo();
+        
+        
         int cont = 0;
         int cont2 = 0;
         String nombre = tf_usuarioIS.getText();
         String contra = pf_contraIS.getText();
-        for (int i = 0; i < jugadores.size(); i++) {
-            if(jugadores.get(i).getNombre().equals(nombre)&&jugadores.get(i).getContra().equals(contra)){
+        for (int i = 0; i < a.listaP.size(); i++) {
+            if(a.listaP.get(i).getNombre().equals(nombre)&&a.listaP.get(i).getContra().equals(contra)){
                 cont++;
             }
         }
-        for (int i = 0; i < administradores.size(); i++) {
-            if(jugadores.get(i).getNombre().equals(nombre)&&jugadores.get(i).getContra().equals(contra)){
+        for (int i = 0; i < ad.lista.size(); i++) {
+            if(ad.lista.get(i).getNombre().equals(nombre)&&ad.lista.get(i).getContra().equals(contra)){
                 cont2++;
             }
         }
@@ -584,20 +604,76 @@ public class Inicio extends javax.swing.JFrame {
         }else{
             JOptionPane.showMessageDialog(this, "No se encuentra el usuario!");
         }
+        tf_usuarioIS.setText("");
+        pf_contraIS.setText("");
     }//GEN-LAST:event_btn_iniciarsesMouseClicked
+
+    private void btn_crearUserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_crearUserMouseClicked
+        // TODO add your handling code here:
+        if(jR_admin.isSelected()){
+            String nombre = tf_registrar.getText();
+            String password = pf_contraregistrarse.getText();
+            Adm_Admin ad = new Adm_Admin("./Administradores");
+            ad.cargarArchivo();
+            ad.getLista().add(new Admin(nombre, password));
+            ad.escribirArchivo();
+            JOptionPane.showMessageDialog(jd_registrarse, "Se ha creado un admin nuevo!");
+            tf_registrar.setText("");
+            pf_contraregistrarse.setText("");
+        }else if(jR_participante.isSelected()){
+            Participante p = new Participante(tf_registrar.getText(),pf_contraregistrarse.getText());
+            Adm_Participante a = new Adm_Participante("./Participante.par");
+            a.cargarArchivo();
+            a.getLista().add(p);
+            a.escribirArchivo();
+            JOptionPane.showMessageDialog(jd_registrarse, "Se creo un participante nuevo");
+            tf_registrar.setText("");
+            pf_contraregistrarse.setText("");
+        }
+    }//GEN-LAST:event_btn_crearUserMouseClicked
     
     public void abrirAdmin(){
-        jd_registrarse.pack();
-        jd_registrarse.setModal(true);
-        jd_registrarse.setLocationRelativeTo(this);
-        jd_registrarse.setVisible(true);
+        jd_Admin.pack();
+        jd_Admin.setModal(true);
+        jd_Admin.setLocationRelativeTo(this);
+        jd_Admin.setVisible(true);
     }
     public void abrirParticipante(){
-        jd_registrarse.pack();
-        jd_registrarse.setModal(true);
-        jd_registrarse.setLocationRelativeTo(this);
-        jd_registrarse.setVisible(true);
+        jd_Participantes.pack();
+        jd_Participantes.setModal(true);
+        jd_Participantes.setLocationRelativeTo(this);
+        jd_Participantes.setVisible(true);
     }
+    
+    /*public void escribirUsuario(File archivo){
+        FileOutputStream fw = null;
+        ObjectOutputStream ow =null;
+        try {
+           fw = new FileOutputStream(archivo);
+           ow = new ObjectOutputStream(fw);
+           ow.writeObject(usuario_actual);
+        } catch (Exception ex) {
+
+        }    
+    }
+    public void leerUsuario(File archivo){
+        FileInputStream fw = null;
+        ObjectInputStream ow = null;
+        User temp;
+        try {
+            fw = new FileInputStream(archivo);
+            ow = new ObjectInputStream(fw);
+            while((temp = (User)ow.readObject()) != null){
+                if(temp.getTipo().equals("Participante")){
+                    
+                }else if(temp.getTipo().equals("Administrador")){
+                    
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }*/
     /**
      * @param args the command line arguments
      */
@@ -666,8 +742,8 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jR_admin;
+    private javax.swing.JRadioButton jR_participante;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -692,4 +768,7 @@ public class Inicio extends javax.swing.JFrame {
 ArrayList<Participante> jugadores = new ArrayList();
 ArrayList<Admin> administradores = new ArrayList();
 ArrayList<Torneo> torneos = new ArrayList();
+File archivo = null;
+File archivoText = null;
+User usuario_actual = null;
 }
