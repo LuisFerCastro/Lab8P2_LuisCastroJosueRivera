@@ -4,18 +4,19 @@
  */
 package lab8p2_luiscastrojosuerivera;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  *
  * @author lfern
  */
-public class Torneo {
+public class Torneo implements Serializable{
     private String nombreTorneo;
     ArrayList<Participante> participantes = new ArrayList();
     boolean cerrado;
     Participante ganador;
-
+    private static final long SerialVersionUID = 777;
     public Torneo(String nombreTorneo, boolean cerrado) {
         this.nombreTorneo = nombreTorneo;
         this.cerrado = cerrado;

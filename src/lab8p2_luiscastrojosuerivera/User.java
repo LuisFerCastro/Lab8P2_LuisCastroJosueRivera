@@ -4,15 +4,17 @@
  */
 package lab8p2_luiscastrojosuerivera;
 
+import java.io.Serializable;
+
 /**
  *
  * @author lfern
  */
-public class User {
+public class User implements Serializable{
     private String nombre;
     private String contra;
 
-
+private static final long SerialVersionUID = 555;
     public User(String nombre, String contra) {
         this.nombre = nombre;
         this.contra = contra;

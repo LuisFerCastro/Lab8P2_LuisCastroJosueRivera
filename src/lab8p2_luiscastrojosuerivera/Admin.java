@@ -4,6 +4,7 @@
  */
 package lab8p2_luiscastrojosuerivera;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -12,10 +13,11 @@ import java.util.ArrayList;
  */
 public class Admin extends User{
     ArrayList<Torneo> creados = new ArrayList();
+   
     public Admin(String nombre, String contra) {
         super(nombre, contra);
     }
-
+    
     public ArrayList<Torneo> getCreados() {
         return creados;
     }

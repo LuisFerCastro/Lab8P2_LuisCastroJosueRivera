@@ -4,6 +4,7 @@
  */
 package lab8p2_luiscastrojosuerivera;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**

@@ -67,8 +67,8 @@ public class Inicio extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         tf_nombreTorneo = new javax.swing.JTextField();
-        cb_rondasTorneo = new javax.swing.JComboBox<>();
         btn_CREARTORNEO = new javax.swing.JButton();
+        jsp_Rondas = new javax.swing.JSpinner();
         jd_Participantes = new javax.swing.JDialog();
         jPanel9 = new javax.swing.JPanel();
         jPanel10 = new javax.swing.JPanel();
@@ -93,6 +93,7 @@ public class Inicio extends javax.swing.JFrame {
         pf_contraIS = new javax.swing.JPasswordField();
         tf_usuarioIS = new javax.swing.JTextField();
 
+        jd_registrarse.setResizable(false);
         jd_registrarse.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -184,6 +185,7 @@ public class Inicio extends javax.swing.JFrame {
 
         jd_registrarse.getContentPane().add(jPanel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 365));
 
+        jd_Admin.setResizable(false);
         jd_Admin.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -220,9 +222,19 @@ public class Inicio extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jl_personasAd);
 
         jl_torneosAd.setModel(new DefaultListModel());
+        jl_torneosAd.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jl_torneosAdMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(jl_torneosAd);
 
         btn_cerrarTorneo.setText("Cerrar Torneo");
+        btn_cerrarTorneo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_cerrarTorneoMouseClicked(evt);
+            }
+        });
 
         btn_ganador.setText("Marcar Ganador");
 
@@ -281,6 +293,7 @@ public class Inicio extends javax.swing.JFrame {
 
         jd_Admin.getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 470));
 
+        jd_crearTorneo.setResizable(false);
         jd_crearTorneo.getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
@@ -304,9 +317,12 @@ public class Inicio extends javax.swing.JFrame {
         jLabel9.setForeground(new java.awt.Color(0, 0, 0));
         jLabel9.setText("Rondas");
 
-        cb_rondasTorneo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" }));
-
         btn_CREARTORNEO.setText("Crear Torneo");
+        btn_CREARTORNEO.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_CREARTORNEOMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -321,7 +337,7 @@ public class Inicio extends javax.swing.JFrame {
                             .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(tf_nombreTorneo, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cb_rondasTorneo, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jsp_Rondas, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel7Layout.createSequentialGroup()
                         .addGap(179, 179, 179)
                         .addComponent(btn_CREARTORNEO, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -337,14 +353,16 @@ public class Inicio extends javax.swing.JFrame {
                 .addComponent(tf_nombreTorneo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel9)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cb_rondasTorneo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jsp_Rondas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                 .addComponent(btn_CREARTORNEO, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(67, 67, 67))
         );
 
         jd_crearTorneo.getContentPane().add(jPanel7, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+
+        jd_Participantes.setResizable(false);
 
         jPanel9.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -590,17 +608,27 @@ public class Inicio extends javax.swing.JFrame {
         for (int i = 0; i < a.listaP.size(); i++) {
             if(a.listaP.get(i).getNombre().equals(nombre)&&a.listaP.get(i).getContra().equals(contra)){
                 cont++;
+                nombre_user = a.listaP.get(i).getNombre();
             }
         }
         for (int i = 0; i < ad.lista.size(); i++) {
             if(ad.lista.get(i).getNombre().equals(nombre)&&ad.lista.get(i).getContra().equals(contra)){
                 cont2++;
+                nombre_user = a.listaP.get(i).getNombre();
             }
         }
         if(cont == 1){
             abrirParticipante();
         }else if(cont2 == 1){
-            abrirParticipante();
+            abrirAdmin();
+            Adm_Torneo at = new Adm_Torneo("./Torneo");
+            at.cargarArchivo();
+            jl_torneosAd.removeAll();
+            DefaultListModel m = (DefaultListModel)jl_torneosAd.getModel();
+            for (int i = 0; i < at.listat.size(); i++) {
+                m.addElement(at.listat.get(i));
+            }
+            jl_torneosAd.setModel(m);
         }else{
             JOptionPane.showMessageDialog(this, "No se encuentra el usuario!");
         }
@@ -631,6 +659,51 @@ public class Inicio extends javax.swing.JFrame {
             pf_contraregistrarse.setText("");
         }
     }//GEN-LAST:event_btn_crearUserMouseClicked
+
+    private void jl_torneosAdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_torneosAdMouseClicked
+        // TODO add your handling code here:
+        if(jl_torneosAd.getSelectedValue() != null){
+            String name = jl_torneosAd.getSelectedValue();
+            Adm_Torneo p = new Adm_Torneo("./Torneo");
+            p.cargarArchivo();
+            jl_personasAd.removeAll();
+            DefaultListModel m = (DefaultListModel) jl_personasAd.getModel();
+            for (int i = 0; i < p.listat.size(); i++) {
+                if(p.listat.get(i).getNombreTorneo().equals(name)){
+                    for (Participante par: p.listat.get(i).participantes) {
+                        m.addElement(par);
+                    }
+                }
+            }
+            jl_personasAd.setModel(m);
+        }
+        
+    }//GEN-LAST:event_jl_torneosAdMouseClicked
+
+    private void btn_CREARTORNEOMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_CREARTORNEOMouseClicked
+        // TODO add your handling code here:
+        Torneo t = new Torneo(tf_nombreTorneo.getText(),true);
+        Adm_Admin ad = new Adm_Admin("./Administradores");
+        ad.cargarArchivo();
+        for (Admin i : ad.getLista()) {
+            if (i.getNombre().equals(nombre_user)){
+                i.getCreados().add(t);
+            }
+        }
+        Adm_Torneo p= new Adm_Torneo("./Torneo"); 
+        p.cargarArchivo();
+        p.listat.add(t);
+        p.escribirArchivo();
+    }//GEN-LAST:event_btn_CREARTORNEOMouseClicked
+
+    private void btn_cerrarTorneoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cerrarTorneoMouseClicked
+        // TODO add your handling code here:
+        if(jl_torneosAd.getSelectedValue() != null){
+            String name = jl_torneosAd.getSelectedValue();
+            Adm_Torneo p = new Adm_Torneo("./Torneo");
+            p.cargarArchivo();
+        }
+    }//GEN-LAST:event_btn_cerrarTorneoMouseClicked
     
     public void abrirAdmin(){
         jd_Admin.pack();
@@ -645,35 +718,7 @@ public class Inicio extends javax.swing.JFrame {
         jd_Participantes.setVisible(true);
     }
     
-    /*public void escribirUsuario(File archivo){
-        FileOutputStream fw = null;
-        ObjectOutputStream ow =null;
-        try {
-           fw = new FileOutputStream(archivo);
-           ow = new ObjectOutputStream(fw);
-           ow.writeObject(usuario_actual);
-        } catch (Exception ex) {
-
-        }    
-    }
-    public void leerUsuario(File archivo){
-        FileInputStream fw = null;
-        ObjectInputStream ow = null;
-        User temp;
-        try {
-            fw = new FileInputStream(archivo);
-            ow = new ObjectInputStream(fw);
-            while((temp = (User)ow.readObject()) != null){
-                if(temp.getTipo().equals("Participante")){
-                    
-                }else if(temp.getTipo().equals("Administrador")){
-                    
-                }
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }*/
+    
     /**
      * @param args the command line arguments
      */
@@ -719,7 +764,6 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JButton btn_registrarse;
     private javax.swing.JButton btn_salirPA;
     private javax.swing.JButton btn_unirseTorneo;
-    private javax.swing.JComboBox<String> cb_rondasTorneo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -758,6 +802,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JList<String> jl_personasAd;
     private javax.swing.JList<String> jl_torneosAd;
     private javax.swing.JList<String> jl_torneosCerrados;
+    private javax.swing.JSpinner jsp_Rondas;
     private javax.swing.JPasswordField pf_contraIS;
     private javax.swing.JPasswordField pf_contraregistrarse;
     private javax.swing.JTextField tf_nombreTorneo;
@@ -765,10 +810,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JTextField tf_usuarioIS;
     private javax.swing.ButtonGroup tipo_usuario;
     // End of variables declaration//GEN-END:variables
-ArrayList<Participante> jugadores = new ArrayList();
-ArrayList<Admin> administradores = new ArrayList();
-ArrayList<Torneo> torneos = new ArrayList();
-File archivo = null;
-File archivoText = null;
+
 User usuario_actual = null;
+String nombre_user;
 }
