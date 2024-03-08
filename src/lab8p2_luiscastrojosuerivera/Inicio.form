@@ -748,6 +748,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Unirse a Torneo"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btn_unirseTorneoMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel14">
               <Properties>

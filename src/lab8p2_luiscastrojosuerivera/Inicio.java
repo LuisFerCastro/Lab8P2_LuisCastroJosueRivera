@@ -436,6 +436,11 @@ public class Inicio extends javax.swing.JFrame {
         jLabel12.setText("Torneos Ganados");
 
         btn_unirseTorneo.setText("Unirse a Torneo");
+        btn_unirseTorneo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_unirseTorneoMouseClicked(evt);
+            }
+        });
 
         jLabel14.setForeground(new java.awt.Color(0, 0, 0));
         jLabel14.setText("BIENVENIDO!");
@@ -652,25 +657,53 @@ public class Inicio extends javax.swing.JFrame {
             if(a.listaP.get(i).getNombre().equals(nombre)&&a.listaP.get(i).getContra().equals(contra)){
                 cont++;
                 nombre_user = a.listaP.get(i).getNombre();
-                
             }
         }
         for (int i = 0; i < ad.lista.size(); i++) {
             if(ad.lista.get(i).getNombre().equals(nombre)&&ad.lista.get(i).getContra().equals(contra)){
                 cont2++;
-                nombre_user = a.listaP.get(i).getNombre();
+                nombre_user = ad.lista.get(i).getNombre();
             }
         }
+        Adm_Torneo at = new Adm_Torneo("./Torneo");
+        at.cargarArchivo();
+        DefaultListModel modelo = (DefaultListModel) jl_TorneosDisponibles.getModel();
         
+        for (Torneo s : at.listat) {
+            if (!(s.isCerrado())){
+                modelo.addElement(new Torneo(s.getNombreTorneo(),false));
+            }
+            
+        }
+        jl_TorneosDisponibles.setModel(modelo);
+        DefaultListModel modell = (DefaultListModel) jl_torneosCerrados.getModel();
+        
+        for (Torneo s : at.listat) {
+            if (s.isCerrado()){
+                modell.addElement(new Torneo(s.getNombreTorneo(),true));
+            }
+            
+        }
+        jl_torneosCerrados.setModel(modell);
+        DefaultListModel modelll = (DefaultListModel) jl_TorneosGanados.getModel();
+        
+        for (Torneo s : at.listat) {
+            if (s.getGanador() == null){
+                continue;
+            }
+            else{
+                if (s.getGanador().getNombre().equals(nombre_user)){
+                    
+                    modelll.addElement(new Torneo(s.getNombreTorneo(),true));
+                }
+            }
+            
+        }
+        jl_TorneosGanados.setModel(modelll);
         if(cont == 1){
-            name_bien.setText(nombre);
-            name_bien2.setText(nombre);
             abrirParticipante();
         }else if(cont2 == 1){
-            name_bien.setText(nombre);
-            name_bien2.setText(nombre);
             abrirAdmin();
-            Adm_Torneo at = new Adm_Torneo("./Torneo");
             at.cargarArchivo();
             jl_torneosAd.removeAll();
             DefaultListModel m = (DefaultListModel)jl_torneosAd.getModel();
@@ -711,7 +744,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void jl_torneosAdMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jl_torneosAdMouseClicked
         // TODO add your handling code here:
-        if(jl_torneosAd.getSelectedValue() != null){
+        if(jl_torneosAd.getSelectedIndex() >= 0){
             String name = jl_torneosAd.getSelectedValue();
             Adm_Torneo p = new Adm_Torneo("./Torneo");
             p.cargarArchivo();
@@ -747,7 +780,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void btn_cerrarTorneoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_cerrarTorneoMouseClicked
         // TODO add your handling code here:
-        if(jl_torneosAd.getSelectedValue() != null){
+        if(jl_torneosAd.getSelectedIndex() >=0){
             String name = jl_torneosAd.getSelectedValue();
             Adm_Torneo p = new Adm_Torneo("./Torneo");
             p.cargarArchivo();
@@ -762,7 +795,7 @@ public class Inicio extends javax.swing.JFrame {
 
     private void btn_ganadorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ganadorMouseClicked
         // TODO add your handling code here:
-        if(jl_torneosAd.getSelectedValue() != null && jl_personasAd.getSelectedValue() != null){
+        if(jl_torneosAd.getSelectedIndex() >= 0 && jl_personasAd.getSelectedIndex() >= 0){
             String nameTorneo = jl_torneosAd.getSelectedValue();
             String User = jl_personasAd.getSelectedValue();
             Adm_Torneo p = new Adm_Torneo("./Torneo");
@@ -772,14 +805,40 @@ public class Inicio extends javax.swing.JFrame {
                     for (int j = 0; j < p.listat.get(i).participantes.size(); j++) {
                         if(p.listat.get(i).participantes.get(j).getNombre().equals(User)){
                             p.listat.get(i).setGanador(p.listat.get(i).participantes.get(j));
+                            Torneo nameT = p.getListat().get(i);
+                            p.listat.get(i).getParticipantes().get(j).ganados.add(nameT);
                         }
                     }
                 }
             }
             
-            p.cargarArchivo();
+            p.escribirArchivo();
         }
     }//GEN-LAST:event_btn_ganadorMouseClicked
+
+    private void btn_unirseTorneoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_unirseTorneoMouseClicked
+        // TODO add your handling code here:
+        /*if (jl_TorneosDisponibles.getSelectedIndex() >= 0){
+            String nom = jl_TorneosDisponibles.getSelectedValue();
+            Adm_Torneo p= new Adm_Torneo("./Torneo"); 
+            p.cargarArchivo();
+            for (Torneo s : p.listat) {
+                if (s.getNombreTorneo().equals(nom)){
+                    Adm_Participante a = new Adm_Participante("./Participante.par");
+                    a.cargarArchivo();
+                    for (Participante k : a.listaP) {
+                        if (k.getNombre().equals(nombre_user)){
+                            k.participando.add(s);
+                            s.getParticipantes().add(k);
+                            a.escribirArchivo();
+                            p.escribirArchivo();
+                            break;
+                        }
+                    }
+                }
+            }
+        }*/
+    }//GEN-LAST:event_btn_unirseTorneoMouseClicked
     
     public void abrirAdmin(){
         jd_Admin.pack();
