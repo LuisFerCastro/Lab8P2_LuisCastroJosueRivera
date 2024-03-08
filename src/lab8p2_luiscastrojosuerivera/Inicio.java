@@ -241,6 +241,11 @@ public class Inicio extends javax.swing.JFrame {
         });
 
         btn_ganador.setText("Marcar Ganador");
+        btn_ganador.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_ganadorMouseClicked(evt);
+            }
+        });
 
         jLabel13.setForeground(new java.awt.Color(0, 0, 0));
         jLabel13.setText("BIENVENIDO!");
@@ -754,6 +759,27 @@ public class Inicio extends javax.swing.JFrame {
             p.escribirArchivo();
         }
     }//GEN-LAST:event_btn_cerrarTorneoMouseClicked
+
+    private void btn_ganadorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_ganadorMouseClicked
+        // TODO add your handling code here:
+        if(jl_torneosAd.getSelectedValue() != null && jl_personasAd.getSelectedValue() != null){
+            String nameTorneo = jl_torneosAd.getSelectedValue();
+            String User = jl_personasAd.getSelectedValue();
+            Adm_Torneo p = new Adm_Torneo("./Torneo");
+            p.cargarArchivo();
+            for (int i = 0; i < p.listat.size(); i++) {
+                if(p.listat.get(i).getNombreTorneo().equals(nameTorneo)){
+                    for (int j = 0; j < p.listat.get(i).participantes.size(); j++) {
+                        if(p.listat.get(i).participantes.get(j).getNombre().equals(User)){
+                            p.listat.get(i).setGanador(p.listat.get(i).participantes.get(j));
+                        }
+                    }
+                }
+            }
+            
+            p.cargarArchivo();
+        }
+    }//GEN-LAST:event_btn_ganadorMouseClicked
     
     public void abrirAdmin(){
         jd_Admin.pack();
