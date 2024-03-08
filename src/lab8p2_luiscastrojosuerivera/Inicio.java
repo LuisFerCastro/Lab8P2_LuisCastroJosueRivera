@@ -4,6 +4,7 @@
  */
 package lab8p2_luiscastrojosuerivera;
 
+import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 
 /**
@@ -186,6 +187,11 @@ public class Inicio extends javax.swing.JFrame {
         );
 
         btn_crearTorneo.setText("Crear Torneo");
+        btn_crearTorneo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_crearTorneoMouseClicked(evt);
+            }
+        });
 
         jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -458,8 +464,18 @@ public class Inicio extends javax.swing.JFrame {
         );
 
         btn_registrarse.setText("Registrarse");
+        btn_registrarse.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_registrarseMouseClicked(evt);
+            }
+        });
 
         btn_iniciarses.setText("Iniciar Sesion");
+        btn_iniciarses.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_iniciarsesMouseClicked(evt);
+            }
+        });
 
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));
         jLabel1.setText("Nombre Usuario");
@@ -527,6 +543,26 @@ public class Inicio extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_registrarseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_registrarseMouseClicked
+        // TODO add your handling code here:
+        jd_registrarse.pack();
+        jd_registrarse.setModal(true);
+        jd_registrarse.setLocationRelativeTo(this);
+        jd_registrarse.setVisible(true);
+    }//GEN-LAST:event_btn_registrarseMouseClicked
+
+    private void btn_crearTorneoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_crearTorneoMouseClicked
+        // TODO add your handling code here:
+        jd_crearTorneo.pack();
+        jd_crearTorneo.setModal(true);
+        jd_crearTorneo.setLocationRelativeTo(this);
+        jd_crearTorneo.setVisible(true);
+    }//GEN-LAST:event_btn_crearTorneoMouseClicked
+
+    private void btn_iniciarsesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_iniciarsesMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_iniciarsesMouseClicked
 
     /**
      * @param args the command line arguments
@@ -619,4 +655,7 @@ public class Inicio extends javax.swing.JFrame {
     private javax.swing.JTextField tf_usuarioIS;
     private javax.swing.ButtonGroup tipo_usuario;
     // End of variables declaration//GEN-END:variables
+ArrayList<Participante> jugadores = new ArrayList();
+ArrayList<Admin> administradores = new ArrayList();
+ArrayList<Torneo> torneos = new ArrayList();
 }
